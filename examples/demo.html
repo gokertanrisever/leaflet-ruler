@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ruler Demo</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" href="../src/leaflet-ruler.css" />
+    <script src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+    <script src="../src/leaflet-ruler.js"></script>
+    <style>
+      #map { height: 650px; }
+      .body { background-color: gainsboro}
+    </style>
+</head>
+<body class="body">
+    <div class="head">
+        <h1><a href="https://github.com/gokertanrisever/leaflet-ruler">leaflet-ruler</a> plugin demo</h1>
+    </div>
+    <div id="map"></div>
+    <script type="text/javascript">
+        var map = L.map('map').setView([41.04, 29.03], 11);
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        L.control.ruler().addTo(map);
+    </script>
+</body>
+</html>
