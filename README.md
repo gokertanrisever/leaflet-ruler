@@ -12,18 +12,18 @@ A simple leaflet plugin to measure **true bearing** and **distance** between cli
 
 - Create a [leaflet map](http://leafletjs.com/examples/quick-start/)
 - Include leaflet-ruler.js and leaflet-ruler.css files.
-```
+```html
 <link rel="stylesheet" type="text/css" href="https://rawgit.com/gokertanrisever/leaflet-ruler/master/leaflet-ruler.css">
 <script src="https://rawgit.com/gokertanrisever/leaflet-ruler/master/leaflet-ruler.js"></script>
 ```
 - Add Ruler control to map
-```
+```js
 L.control.ruler().addTo(map);
 ```
 - Double-click finishes measurement path and starts a new measurement.
 - Escape button also finishes measurement path. Second push to escape turns off the plugin.
 - It's possible to add other units. No need to specify any option value to use default.
-```
+```js
 var options = {
           position: 'topleft',
           lengthUnit: {
@@ -38,7 +38,7 @@ L.control.ruler(options).addTo(map);
 
 ## Default Options
 
-```
+```js
 options: {
       position: 'topright',         // Leaflet control position option
       circleMarker: {               // Leaflet circle marker options for points used in this plugin
