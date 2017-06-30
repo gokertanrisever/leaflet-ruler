@@ -82,7 +82,7 @@
       this._clickedLatLong = e.latlng;
       this._clickedPoints.push(this._clickedLatLong);
       L.circleMarker(this._clickedLatLong, this.options.circleMarker).addTo(this._pointLayer);
-      if(this._clickCount > 0){
+      if(this._clickCount > 0 && !e.latlng.equals(this._clickedPoints[this._clickedPoints.length - 2])){
         if (this._movingLatLong){
           L.polyline([this._clickedPoints[this._clickCount-1], this._movingLatLong], this.options.lineStyle).addTo(this._polylineLayer);
         }
