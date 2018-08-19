@@ -58,7 +58,7 @@ options: {
       angleUnit: {
         display: '&deg;',           // This is the display value will be shown on the screen. Example: 'Gradian'
         decimal: 2,                 // Bearing result will be fixed to this value.
-        factor: null                // This option is required to customize angle unit. Specify solid angle value for angle unit. Example: 400 (for gradian).
+        factor: null,                // This option is required to customize angle unit. Specify solid angle value for angle unit. Example: 400 (for gradian).
         label: 'Bearing:'
       }
     }
