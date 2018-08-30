@@ -52,12 +52,14 @@ options: {
       lengthUnit: {                 // You can use custom length units. Default unit is kilometers.
         display: 'km',              // This is the display value will be shown on the screen. Example: 'meters'
         decimal: 2,                 // Distance result will be fixed to this value. 
-        factor: null                // This value will be used to convert from kilometers. Example: 1000 (from kilometers to meters)  
+        factor: null,               // This value will be used to convert from kilometers. Example: 1000 (from kilometers to meters)  
+        label: 'Distance:'           
       },
       angleUnit: {
         display: '&deg;',           // This is the display value will be shown on the screen. Example: 'Gradian'
         decimal: 2,                 // Bearing result will be fixed to this value.
-        factor: null                // This option is required to customize angle unit. Specify solid angle value for angle unit. Example: 400 (for gradian).
+        factor: null,                // This option is required to customize angle unit. Specify solid angle value for angle unit. Example: 400 (for gradian).
+        label: 'Bearing:'
       }
     }
 ```
