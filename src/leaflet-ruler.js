@@ -161,6 +161,7 @@
     _closePath: function() {
       this._map.removeLayer(this._tempLine);
       this._map.removeLayer(this._tempPoint);
+      if (this._clickCount <= 1) this._map.removeLayer(this._pointLayer);
       this._choice = false;
       L.DomEvent.on(this._container, 'click', this._toggleMeasure, this);
       this._toggleMeasure();
