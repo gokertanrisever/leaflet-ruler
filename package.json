@@ -1,0 +1,27 @@
+{
+  "name": "leaflet-ruler",
+  "version": "1.0.0",
+  "description": "A simple leaflet plugin to measure true bearing and distance between clicked points.",
+  "main": "src/leaflet-ruler.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gokertanrisever/leaflet-ruler.git"
+  },
+  "keywords": [
+    "leaflet",
+    "measure"
+  ],
+  "author": "Göker Tanrısever (https://www.linkedin.com/in/gokertanrisever/)",
+  "contributors": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gokertanrisever/leaflet-ruler/issues"
+  },
+  "homepage": "https://github.com/gokertanrisever/leaflet-ruler#readme",
+  "devDependencies": {},
+  "peerDependencies": {
+    "leaflet": "^1.0.0"
+  },
+  "dependencies": {}
+}
