@@ -13,6 +13,9 @@
   L.Control.Ruler = L.Control.extend({
     options: {
       position: 'topright',
+      events: {
+        onToggle: function (is_active) { }
+      },
       circleMarker: {
         color: 'red',
         radius: 2
@@ -34,6 +37,9 @@
         label: 'Bearing:'
       }
     },
+    isActive: function () {
+      return this._choice;
+    },
     onAdd: function(map) {
       this._map = map;
       this._container = L.DomUtil.create('div', 'leaflet-bar');
@@ -50,6 +56,7 @@
     },
     _toggleMeasure: function() {
       this._choice = !this._choice;
+      this.options.events.onToggle(this._choice);
       this._clickedLatLong = null;
       this._clickedPoints = [];
       this._totalLength = 0;
