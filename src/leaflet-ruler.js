@@ -91,10 +91,10 @@
         var text;
         this._totalLength += this._result.Distance;
         if (this._clickCount > 1) {
-          text = '(' + this._result.Lat.toFixed(7) + ', ' + this._result.Lng.toFixed(7) + ')' + '<br>' + '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' + this.options.lengthUnit.display;
+          text = '( ' + this._result.Lat.toFixed(7) + ', ' + this._result.Lng.toFixed(7) + ' )' + '<br>' + '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' + this.options.lengthUnit.display;
         }
         else {
-          text = '(' + this._result.Lat.toFixed(7) + ', ' + this._result.Lng.toFixed(7) + ')' + '<br>' + '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' + this.options.lengthUnit.display;
+          text = '( ' + this._result.Lat.toFixed(7) + ', ' + this._result.Lng.toFixed(7) + ' )' + '<br>' + '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' + this.options.lengthUnit.display;
         }
         L.circleMarker(this._clickedLatLong, this.options.circleMarker).bindTooltip(text, { permanent: true, className: 'result-tooltip' }).addTo(this._pointLayer).openTooltip();
       }
