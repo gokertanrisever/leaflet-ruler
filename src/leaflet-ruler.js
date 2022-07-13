@@ -8,7 +8,8 @@
   if (typeof window !== 'undefined' && window.L) {
     window.L.Ruler = factory(L);
   }
-}(function (L) {
+}
+(function (L) {
   "use strict";
   L.Control.Ruler = L.Control.extend({
     options: {
@@ -25,19 +26,37 @@
         display: 'km',
         decimal: 2,
         factor: null,
-        label: 'Distance:'
+        label: 'Distance:',
+        visibility: "visible" // Visibility setting for distance-display
       },
       angleUnit: {
         display: '&deg;',
         decimal: 2,
         factor: null,
-        label: 'Bearing:'
+        label: 'Bearing:',
+        visibility: "visible" // Visibility setting for bearing-display
+      },
+      leafletRuler: {
+        icon: null,
+        iconClicked: null // null -> use from css
       }
+    },
+    _updateRulerButton: function(clicked){
+      var rulers = document.getElementsByClassName('leaflet-ruler');
+        for(var i = 0; i < rulers.length; i++){
+          this._setIcon(rulers[i], clicked);
+        }
+    },
+    _setIcon: function(target, clicked){
+      var icon = clicked? this.options.leafletRuler.iconClicked : this.options.leafletRuler.icon;       
+      if(icon != null)
+        target.style.backgroundImage = icon;
     },
     onAdd: function(map) {
       this._map = map;
       this._container = L.DomUtil.create('div', 'leaflet-bar');
       this._container.classList.add('leaflet-ruler');
+      this._setIcon(this._container, false)
       L.DomEvent.disableClickPropagation(this._container);
       L.DomEvent.on(this._container, 'click', this._toggleMeasure, this);
       this._choice = false;
@@ -58,6 +77,7 @@
         L.DomEvent.on(this._map._container, 'keydown', this._escape, this);
         L.DomEvent.on(this._map._container, 'dblclick', this._closePath, this);
         this._container.classList.add("leaflet-ruler-clicked");
+        this._updateRulerButton(true);
         this._clickCount = 0;
         this._tempLine = L.featureGroup().addTo(this._allLayers);
         this._tempPoint = L.featureGroup().addTo(this._allLayers);
@@ -73,6 +93,7 @@
         L.DomEvent.off(this._map._container, 'keydown', this._escape, this);
         L.DomEvent.off(this._map._container, 'dblclick', this._closePath, this);
         this._container.classList.remove("leaflet-ruler-clicked");
+        this._updateRulerButton(false);
         this._map.removeLayer(this._allLayers);
         this._allLayers = L.layerGroup();
         this._map._container.style.cursor = this._defaultCursor;
@@ -91,14 +112,30 @@
         var text;
         this._totalLength += this._result.Distance;
         if (this._clickCount > 1){
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+          text = this._get_text(this.options, this._result, null, this._totalLength)
         }
         else {
-          text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+          text = this._get_text(this.options, this._result)
         }
         L.circleMarker(this._clickedLatLong, this.options.circleMarker).bindTooltip(text, {permanent: true, className: 'result-tooltip'}).addTo(this._pointLayer).openTooltip();
       }
       this._clickCount++;
+    },
+    _get_text :function(options, result, addedLength = null, totalLength = null){
+      var text = "";
+      if(options.angleUnit.visibility == "visible"){
+        text += '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br>';
+      }
+      if(options.lengthUnit.visibility == "visible"){
+        text += '<b>' + this.options.lengthUnit.label + '</b>&nbsp;'
+        if(addedLength != null)
+          text += this._addedLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display + '<br><div class="plus-length">(+' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + ')</div>';
+        else if (totalLength != null)
+          text += totalLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+        else
+          text += '<b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+      }
+      return text;
     },
     _moving: function(e) {
       if (this._clickedLatLong){
@@ -117,11 +154,16 @@
         this._calculateBearingAndDistance();
         this._addedLength = this._result.Distance + this._totalLength;
         L.polyline([this._clickedLatLong, this._movingLatLong], this.options.lineStyle).addTo(this._tempLine);
-        if (this._clickCount > 1){
+        /*if (this._clickCount > 1){
           text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._addedLength.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display + '<br><div class="plus-length">(+' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + ')</div>';
         }
         else {
           text = '<b>' + this.options.angleUnit.label + '</b>&nbsp;' + this._result.Bearing.toFixed(this.options.angleUnit.decimal) + '&nbsp;' + this.options.angleUnit.display + '<br><b>' + this.options.lengthUnit.label + '</b>&nbsp;' + this._result.Distance.toFixed(this.options.lengthUnit.decimal) + '&nbsp;' +  this.options.lengthUnit.display;
+        }*/
+        if(this._clickCount > 1){
+          text = this._get_text(this.options, this._result, this._addedLength);
+        }else{
+          text = this._get_text(this.options, this._result);
         }
         L.circleMarker(this._movingLatLong, this.options.circleMarker).bindTooltip(text, {sticky: true, offset: L.point(0, -40) ,className: 'moving-tooltip'}).addTo(this._tempPoint).openTooltip();
       }
