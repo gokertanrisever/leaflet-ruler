@@ -56,6 +56,7 @@ L.control.ruler(options).addTo(map);
 ```js
 options: {
       position: 'topright',         // Leaflet control position option
+      maxPoints: null               // Maximum number of points in one line
       circleMarker: {               // Leaflet circle marker options for points used in this plugin
         color: 'red',
         radius: 2

@@ -13,6 +13,7 @@
   L.Control.Ruler = L.Control.extend({
     options: {
       position: 'topright',
+      maxPoints: null,
       events: {
         onToggle: function (is_active) { }
       },
@@ -106,6 +107,13 @@
         L.circleMarker(this._clickedLatLong, this.options.circleMarker).bindTooltip(text, {permanent: true, className: 'result-tooltip'}).addTo(this._pointLayer).openTooltip();
       }
       this._clickCount++;
+
+      if (
+        this.options.maxPoints !== null &&
+        this._clickCount >= this.options.maxPoints
+      ) {
+        this._closePath();
+      }
     },
     _moving: function(e) {
       if (this._clickedLatLong){
